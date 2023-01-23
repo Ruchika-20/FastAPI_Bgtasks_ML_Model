@@ -1,0 +1,4 @@
+win-env
+__pycache__/
+*.pyc
+.env

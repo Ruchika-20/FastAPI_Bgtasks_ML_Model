@@ -1,0 +1,10 @@
+sqlalchemy
+fastapi
+uvicorn
+python-dotenv
+pydantic
+fastapi-background-tasks
+psycopg2
+sklearn
+
+

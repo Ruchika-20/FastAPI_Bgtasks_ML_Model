@@ -1,0 +1,124 @@
+# import os
+# import time
+# from sklearn import datasets
+# from sklearn.ensemble import RandomForestClassifier
+# from sklearn.metrics import accuracy_score
+# import asyncio
+
+
+# async def train_model_bg(df, user_input):
+#     # Training the model code using the input csv file
+#     print(f"Model training started for column: {user_input} using input file")
+#     await asyncio.sleep()
+#     print("Model training completed")
+
+# import numpy as np
+# from sklearn.linear_model import LogisticRegression
+# from sklearn.metrics import accuracy_score
+
+# def train_model_bg(X_train, y_train, X_test, y_test):
+#     clf = LogisticRegression()
+#     clf.fit(X_train, y_train)
+#     y_pred = clf.predict(X_test)
+#     acc = accuracy_score(y_test, y_pred)
+#     return acc
+
+
+# def train_model(input, algorithm, output):
+
+#     # load the dataset....instead of this fetch the url...upload the csv file instead of directly loading it from the datasets.
+#     X, y = datasets.load_iris(return_X_y=True)
+
+#     # train the model
+#     model = RandomForestClassifier()
+#     model.fit(X, y)
+
+#     # evaluate the model
+#     y_pred = model.predict(X)
+#     accuracy = accuracy_score(y, y_pred)
+
+#     # save the model
+#     if output == 'pickle':
+#         import pickle
+#         with open(os.path.join('Backend/jobs/model', 'trained_model.save'), 'wb') as f:
+#             pickle.dump(model, f)
+
+#     elif output == 'joblib':
+#         from joblib import dump
+#         dump(model, os.path.join('Backend/jobs/model', 'trained_model.joblib'))
+        
+#     # return the result
+#     result = {'accuracy': accuracy, 'estimated_time': time.time()}
+#     return result
+
+# def get_job_result():
+#     #retrive the result of the job
+#     pass
+
+
+
+
+
+
+#******************************************
+
+# from Backend.jobs.models import train_model
+# from Backend.jobs.models import get_job_result
+# from fastapi.responses import FileResponse
+
+# @app.post("/job/")
+# async def create_job(payload: JobSchema, background_tasks: BackgroundTasks):
+#     background_tasks.add_task(train_model, payload.input, payload.algorithm, payload.output)
+#     return {"message": "Job started"}
+
+# @app.get("/job/result")
+# async def job_result():
+
+#     # retrieve the result of the job
+#     result = get_job_result()
+#     return result
+
+# @app.get("/job/download")
+# async def job_download():
+
+#     # return the trained model file for download
+#     return FileResponse(os.path.join('Backend/jobs/model', 'trained_model.save'))
+
+
+
+
+
+
+
+
+#**********************************************************************************************************
+# from fastapi import FastAPI, BackgroundTasks
+# import time
+# from fastapi import FastAPI, BackgroundTasks, File
+# import pandas as pd
+# import joblib
+
+# app = FastAPI()
+
+# @app.post("/train")
+# async def train_model(background_tasks:BackgroundTasks,file: bytes = File(...)):
+#     start_time = time.time()
+#     # Define the function that will train the model
+#     def train():
+#         # load data from file
+#         df = pd.read_csv(file)
+
+        
+#         # train the model
+#         model = ...
+#         model.fit(inputs, outputs)
+        
+#         # save the model
+#         joblib.dump(model, 'model.joblib')
+        
+#     # Add the train function to the background tasks queue
+#     background_tasks.add_task(train)
+
+#     end_time = time.time()
+#     estimated_time = end_time - start_time
+#     return {"message": "Training started","estimated_time": estimated_time}
